@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "iomanip": "cpp",
+        "iosfwd": "cpp",
+        "ostream": "cpp",
+        "iterator": "cpp",
+        "xutility": "cpp"
+    }
+}
