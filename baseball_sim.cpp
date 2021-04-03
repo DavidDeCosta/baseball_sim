@@ -2,11 +2,11 @@
     This program simulates the outcome of an at bat in a baseball game
 */
 //Programmer: <David DeCosta>
-//Date of last modification : <16 March 2021>
+//Date of last modification : <18 March 2021>
 
 #include <iostream>
 #include <iomanip>
-#include <time.h>
+#include <time.h> //used to seed srand with time NULL
 #include <stdlib.h> //for srand(), rand()
 
 using namespace std;
@@ -14,34 +14,24 @@ using namespace std;
 //prototypes
 void createColumns();
 int* generateRandomValue();
-void experimentalCalc(int *count);
-void theoreticalPercentage(int *count);
-void percentError(int *count);
-void displayCount(int*count);
 
 int main(){
 
+    string labels[9] = {"Stike out: ", "Ground out: ", "Fly out: ", "Fielding error: ", "Walk: ", "Single: ", "Double: ", "Triple: ", "Home run: "};
+    float percentage[9] = {.20,.2450,.28,.01,.08,.105,.04,.005,.035}; //an array of floating points used to calculate the Theoretical and % error
     int *count = generateRandomValue(); //pointer to values in the array count
     createColumns(); //creates the columns
 
+    //this loop displays the labels and calculations
+    for(int k = 0; k < 9; k++){
+        cout << setw(16) << labels[k]
+             << setw(8) << count[k]
+             << setw(23) << count[k]/100.0
+             << setw(23) << percentage[k] *100
+             << setw(23) << (count[k]/100.0 - percentage[k] * 100)/(percentage[k] * 100) *100
+             << endl;
+    }
     
-    cout << "Strike out: " <<setw(12) << count[0] << setw(23) << count[0]/10000.0 * 100 << setw(17) << .20*100 << setw(16) << (count[0]/10000.0 *100 -  .20 * 100)/ (.20 * 100) *100 <<endl
-    << "Ground out: " << setw(12) <<count [1] << setw(23) << count[1]/10000.0 * 200 << setw(17) << .2450*200 << setw(16) << (count[1]/10000.0 *100 -  .2450 * 100)/ (.2450 * 100) *100 <<endl 
-    << "Fly out: " << setw(15) <<count[2] << setw(23) << count[2]/10000.0 * 100 << setw(17) << .28*100 <<setw(16) << (count[2]/10000.0 *100 -  .28 * 100)/ (.28 * 100) *100 <<endl 
-    << "Fielding error: " <<setw(8) <<count[3] << setw(23) << count[3]/10000.0 * 100 << setw(17) << .01*100<<setw(16) << (count[3]/10000.0 *100 -  .01 * 100)/ (.01 * 100) *100   << endl 
-    << "Walk: "<< setw(18) <<count[4] << setw(23) << count[4]/10000.0 * 100 << setw(17) << .08*100 <<setw(16) << (count[4]/10000.0 *100 -  .08 * 100)/ (.08 * 100) *100   <<endl 
-    << "Single: " << setw(16) <<count[5] << setw(23) << count[5]/10000.0 * 100 << setw(17) << .105*100 <<setw(16) << (count[5]/10000.0 *100 -  .105 * 100)/ (.105 * 100) *100   <<endl 
-    << "Double: " << setw(16) <<count[6] << setw(23) << count[6]/10000.0 * 100 << setw(17) << .04*100 <<setw(16) << (count[6]/10000.0 *100 -  .04 * 100)/ (.04 * 100) *100   <<endl 
-    << "Tiple: " << setw(17) <<count[7] << setw(23) << count[7]/10000.0 * 100 << setw(17) << .005*100 <<setw(16) << (count[7]/10000.0 *100 -  .005 * 100)/ (.005 * 100) *100  <<endl 
-    << "Home Run: " << setw(14) <<count[8] << setw(23) << count[8]/10000.0 * 100 << setw(17) << .035*100 <<setw(16) << (count[8]/10000.0 *100 -  .035 * 100)/ (.035 * 100) *100  <<endl 
-    << endl <<endl;
-
-    //experimentalCalc(count);
-    //theoreticalPercentage(count);
-    //percentError(count);
-    //displayCount(count);
-
-
     return 0;
 }
 
@@ -50,97 +40,9 @@ void createColumns(){
     cout.setf(ios::showpoint|ios::fixed);
     cout << setprecision(2);
     cout << endl;
-    cout << setw(24) << "Number of" << setw(26) << "Experimental" << setw(18) << "Theoretical" << setw(14) << "% error" <<endl;
-    cout << setw(29) << "Times Selected" << setw(19) << "percentage" << setw(19) << "percentage" << endl;
-    cout << setw(29) << "--------------" << setw(19) << "----------" << setw(19) << "----------" << setw(14) << "------"<<endl;
-}
-
-// this fuction calculates the experimental value
-void experimentalCalc(int *count){
-
-    for(int i = 0; i < 9; i++){
-            cout << setw(20) << count[i]/10000.0 * 100 << endl;
-    }
-}
-
-//this fuction calculates the theoretical perecentage
-void theoreticalPercentage(int *count){
-
-    for(int i = 0; i < 9;i++){
-        if(count[i] == count[0]){
-            cout << .20*100 << endl;
-        }
-        else if(count[i] == count[1]){
-            cout << .2450*200 << endl;
-        }
-        else if(count[i] == count[2]){
-            cout << .28*100 <<endl;
-        }
-        else if(count[i] == count[3]){
-            cout <<  .01*100<<endl;
-        }
-        else if(count[i] == count[4]){
-            cout <<  .08*100 <<endl;
-        }
-        else if(count[i] == count[5]){
-            cout <<  .105*100 <<endl;
-        }
-        else if(count[i] == count[6]){
-            cout << .04*100 <<endl;
-        }
-        else if(count[i] == count[7]){
-            cout <<  .005*100 <<endl;
-        }
-        else if(count[i] == count[8]){
-            cout << .035*100 <<endl;
-        }
-        else{
-            cout << "IDK";
-        }
-    }
-}
-
-//this function calculates the percent error
-void percentError(int *count){
-        for(int i = 0; i < 9;i++){
-        if(count[i] == count[0]){
-            cout <<  (count[0]/10000.0 *100 -  .20 * 100)/ (.20 * 100) *100  << endl;
-        }
-        else if(count[i] == count[1]){
-            cout <<  (count[1]/10000.0 *100 -  .2450 * 100)/ (.2450 * 100) *100 << endl;
-        }
-        else if(count[i] == count[2]){
-            cout << (count[2]/10000.0 *100 -  .28 * 100)/ (.28 * 100) *100 <<endl;
-        }
-        else if(count[i] == count[3]){
-            cout << (count[3]/10000.0 *100 -  .01 * 100)/ (.01 * 100) *100   <<endl;
-        }
-        else if(count[i] == count[4]){
-            cout << (count[4]/10000.0 *100 -  .08 * 100)/ (.08 * 100) *100   <<endl;
-        }
-        else if(count[i] == count[5]){
-            cout << (count[5]/10000.0 *100 -  .105 * 100)/ (.105 * 100) *100   <<endl;
-        }
-        else if(count[i] == count[6]){
-            cout << (count[6]/10000.0 *100 -  .04 * 100)/ (.04 * 100) *100   <<endl;
-        }
-        else if(count[i] == count[7]){
-            cout << (count[7]/10000.0 *100 -  .005 * 100)/ (.005 * 100) *100  <<endl;
-        }
-        else if(count[i] == count[8]){
-            cout << (count[8]/10000.0 *100 -  .035 * 100)/ (.035 * 100) *100  <<endl;
-        }
-        else{
-            cout << "IDK";
-        }
-    }
-}
-
-//this function displays the number of times an outcome of an at bat occured
-void displayCount(int*count){
-    for(int i = 0;i < 9;i++){
-        cout << count[i] << endl;
-    }
+    cout << setw(25) << "Number of" << setw(26) << "Experimental" << setw(23) << "Theoretical" << setw(21) << "% error" <<endl;
+    cout << setw(30) << "Times Selected" << setw(19) << "percentage" << setw(24) << "percentage" << endl;
+    cout << setw(30) << "--------------" << setw(19) << "----------" << setw(24) << "----------" << setw(21) << "------"<<endl;
 }
 
 //this function generates a random value then increments the index of the array it falls into
